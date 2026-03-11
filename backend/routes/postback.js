@@ -8,27 +8,37 @@ router.get('/cpx', async (req, res) => {
   try {
     const { status, trans_id, user_id, amount_usd, hash } = req.query;
 
-    // Verify hash (get your secret hash from CPX Research dashboard)
-    const CPX_SECRET = process.env.CPX_SECRET || 'your_cpx_secret_hash';
-    const expectedHash = crypto.md5 ? 
-      crypto.createHash('md5').update(trans_id + CPX_SECRET).digest('hex') :
-      crypto.createHash('md5').update(trans_id + CPX_SECRET).digest('hex');
+    // Verify hash
+    const CPX_SECRET = process.env.CPX_SECRET || 'FarmaishFarmaish';
+    const expectedHash = crypto.createHash('md5').update(trans_id + '-' + CPX_SECRET).digest('hex');
+    if (hash !== expectedHash) return res.status(403).send('Invalid hash');
 
-    if (hash !== expectedHash) {
-      return res.status(403).send('Invalid hash');
+    // Status 2 = reversed/fraud - deduct earning
+    if (status === '2') {
+      const tx = await Transaction.findOne({ txHash: trans_id });
+      if (tx) {
+        const user = await User.findById(user_id);
+        if (user) {
+          user.balance -= tx.amount;
+          user.totalEarned -= tx.amount;
+          await user.save();
+          tx.status = 'rejected';
+          await tx.save();
+        }
+      }
+      return res.send('OK');
     }
 
-    if (status !== '1') return res.send('OK'); // not completed
+    if (status !== '1') return res.send('OK');
 
-    // Find user and credit them
+    // Check duplicate
+    const existing = await Transaction.findOne({ txHash: trans_id });
+    if (existing) return res.send('OK');
+
     const user = await User.findById(user_id);
     if (!user) return res.status(404).send('User not found');
 
-    // Check duplicate transaction
-    const existing = await Transaction.findOne({ txHash: trans_id });
-    if (existing) return res.send('OK'); // already credited
-
-    const earning = parseFloat(amount_usd) * 0.3; // give user 30%
+    const earning = parseFloat(amount_usd) * 0.3;
 
     user.balance += earning;
     user.totalEarned += earning;
