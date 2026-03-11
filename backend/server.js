@@ -4,7 +4,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-
+app.route('/').get((req, res) => {
+  res.send('EarnZone API is running');
+});
 app.use(cors());
 app.use(express.json());
 require('dotenv').config();
