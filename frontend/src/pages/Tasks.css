@@ -1,0 +1,48 @@
+.tasks-page { display: flex; flex-direction: column; gap: 24px; max-width: 800px; }
+.page-header { display: flex; align-items: center; justify-content: space-between; }
+.page-header h2 { font-size: 24px; font-weight: 700; }
+
+.task-stats-row { display: flex; align-items: center; justify-content: space-around; }
+.task-stat { text-align: center; }
+.task-stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--gold); }
+.task-stat-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+.task-divider { width: 1px; height: 50px; background: var(--border); }
+.task-remaining { font-size: 13px; color: var(--text2); margin-top: 10px; text-align: center; }
+
+.survey-section { }
+.survey-header { margin-bottom: 20px; }
+.survey-header h3 { font-size: 18px; margin-bottom: 6px; }
+.survey-header p { font-size: 14px; color: var(--text2); }
+
+.survey-placeholder {
+  background: var(--bg3);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  min-height: 300px;
+  display: flex; align-items: center; justify-content: center;
+}
+.survey-placeholder-inner { text-align: center; padding: 40px; }
+.survey-placeholder-icon { font-size: 48px; margin-bottom: 16px; }
+.survey-placeholder-inner h4 { font-size: 18px; margin-bottom: 8px; }
+.survey-placeholder-inner p { font-size: 14px; color: var(--text2); }
+
+.level-benefits { display: flex; flex-direction: column; gap: 10px; }
+.level-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg3); border-radius: 12px;
+  border: 1px solid transparent;
+}
+.level-row.current { border-color: var(--gold); background: rgba(245,200,66,0.05); }
+.level-row.done { opacity: 0.6; }
+.level-badge {
+  width: 36px; height: 36px;
+  background: var(--bg2); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+  color: var(--gold); flex-shrink: 0;
+}
+.level-info { flex: 1; }
+.level-name { font-weight: 600; font-size: 14px; }
+.level-details { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.level-price { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green); font-size: 14px; }
