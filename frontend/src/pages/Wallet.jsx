@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import './Wallet.css';
 
-const BITCOIN_ADDRESS = 'YOUR_BITCOIN_ADDRESS_HERE'; // Replace with your BTC address
+const BITCOIN_ADDRESS = 'bc1q7kjrl5prs4nytmyf2wnmvc8u0kggxtqnn80z7j'; // Replace with your BTC address
 
 export default function Wallet() {
   const { user, API, refreshUser } = useAuth();
