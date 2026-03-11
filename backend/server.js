@@ -4,14 +4,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.route('/').get((req, res) => {
-  res.send('EarnZone API is running');
-});
+
+app.get('/', (req, res) => res.send('EarnZone API is running'));
+
 app.use(cors());
 app.use(express.json());
-require('dotenv').config();
-app.use('/api/postback', require('./routes/postback'));
-process.env.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/earnzone';
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
@@ -20,10 +18,35 @@ app.use('/api/wallet', require('./routes/wallet'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/notifications', require('./routes/notifications'));
+app.use('/api/postback', require('./routes/postback'));
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB Error:', err));
+// Fix for Vercel - reuse connection
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    const db = await mongoose.connect(process.env.MONGODB_URI, {
+      bufferCommands: false,
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
+    });
+    isConnected = db.connections[0].readyState === 1;
+    console.log('MongoDB Connected');
+  } catch (err) {
+    console.log('MongoDB Error:', err.message);
+    isConnected = false;
+  }
+};
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
