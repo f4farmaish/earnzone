@@ -1,35 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import './Tasks.css';
 
 export default function Tasks() {
   const { user, API, refreshUser } = useAuth();
   const [taskStatus, setTaskStatus] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const adRef1 = useRef(null);
+  const adRef2 = useRef(null);
 
-  useEffect(() => { fetchStatus(); }, []);
+  useEffect(() => { 
+    fetchStatus(); 
+    // Refresh every 30 seconds to catch postback updates
+    const interval = setInterval(fetchStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Load ads
+  useEffect(() => {
+    [adRef1, adRef2].forEach(ref => {
+      if (ref.current && !ref.current.querySelector('script')) {
+        const s = document.createElement('script');
+        s.src = 'https://pl28894695.effectivegatecpm.com/9a/c1/fa/9ac1faacb32a3fa971ad9e4ac7331291.js';
+        s.async = true;
+        ref.current.appendChild(s);
+      }
+    });
+  }, []);
 
   const fetchStatus = async () => {
     try {
       const res = await axios.get(`${API}/tasks/status`);
       setTaskStatus(res.data);
     } catch {}
-  };
-
-  const completeTask = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.post(`${API}/tasks/complete`);
-      toast.success(res.data.message);
-      fetchStatus();
-      refreshUser();
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Error');
-    } finally {
-      setLoading(false);
-    }
   };
 
   const LEVEL_NAMES = { 1: 'Starter', 2: 'Basic', 3: 'Advanced', 4: 'Pro', 5: 'Elite' };
@@ -40,6 +43,9 @@ export default function Tasks() {
         <h2>Daily Tasks</h2>
         <span className="badge badge-gold">Level {user?.level} — {LEVEL_NAMES[user?.level]}</span>
       </div>
+
+      {/* AD TOP */}
+      <div ref={adRef1} style={{minHeight:60, borderRadius:12, overflow:'hidden', marginBottom:8}} />
 
       {taskStatus && (
         <div className="task-overview card">
@@ -56,9 +62,9 @@ export default function Tasks() {
             <div className="task-divider" />
             <div className="task-stat">
               <div className="task-stat-num" style={{color:'var(--green)'}}>
-                ${taskStatus.taskEarning?.toFixed(2)}
+                Auto
               </div>
-              <div className="task-stat-label">Per Task</div>
+              <div className="task-stat-label">Per Survey</div>
             </div>
           </div>
           <div className="progress-bar" style={{marginTop:20}}>
@@ -67,7 +73,7 @@ export default function Tasks() {
           </div>
           <div className="task-remaining">
             {taskStatus.tasksTotal - taskStatus.tasksCompleted > 0
-              ? `${taskStatus.tasksTotal - taskStatus.tasksCompleted} tasks remaining`
+              ? `${taskStatus.tasksTotal - taskStatus.tasksCompleted} surveys remaining today`
               : '✅ All tasks done for today!'}
           </div>
         </div>
@@ -77,29 +83,39 @@ export default function Tasks() {
       <div className="card survey-section">
         <div className="survey-header">
           <h3>📋 Complete a Survey</h3>
-          <p>Complete surveys below to earn your task reward. Each survey = 1 task completed.</p>
+          <p>Complete a survey below — your balance updates <strong>automatically</strong> after completion!</p>
+          <div style={{
+            marginTop:10, padding:'10px 14px',
+            background:'rgba(0,229,160,0.08)',
+            border:'1px solid rgba(0,229,160,0.2)',
+            borderRadius:10, fontSize:13, color:'var(--green)'
+          }}>
+            💡 No need to click anything — just complete the survey and your balance updates!
+          </div>
         </div>
 
-        {/* AD/SURVEY PLACEHOLDER - CPX Research iframe goes here */}
-<div id="cpx-research-container">
-  <iframe
-    src={`https://offers.cpx-research.com/index.php?app_id=31846&ext_user_id=${user?._id}`}
-    style={{width:'100%', height:'500px', border:'none', borderRadius:'12px'}}
-    title="Surveys"
-  />
-</div>
-        <button
-          className="btn btn-gold btn-full"
-          onClick={completeTask}
-          disabled={loading || (taskStatus && taskStatus.tasksCompleted >= taskStatus.tasksTotal)}
-          style={{marginTop: 16}}
-        >
-          {loading ? 'Processing...' :
-            taskStatus?.tasksCompleted >= taskStatus?.tasksTotal
-              ? '✅ Daily Limit Reached'
-              : `✓ Mark Task Complete (+$${taskStatus?.taskEarning?.toFixed(2)})`}
-        </button>
+        <div id="cpx-research-container">
+          {taskStatus?.tasksCompleted >= taskStatus?.tasksTotal ? (
+            <div style={{
+              textAlign:'center', padding:'60px 20px',
+              background:'var(--bg3)', borderRadius:12
+            }}>
+              <div style={{fontSize:48, marginBottom:16}}>✅</div>
+              <h3 style={{marginBottom:8}}>All Done for Today!</h3>
+              <p style={{color:'var(--text2)'}}>Come back tomorrow for more surveys</p>
+            </div>
+          ) : (
+            <iframe
+              src={`https://offers.cpx-research.com/index.php?app_id=31846&ext_user_id=${user?._id}`}
+              style={{width:'100%', height:'500px', border:'none', borderRadius:'12px'}}
+              title="Surveys"
+            />
+          )}
+        </div>
       </div>
+
+      {/* AD BOTTOM */}
+      <div ref={adRef2} style={{minHeight:60, borderRadius:12, overflow:'hidden'}} />
 
       {/* Level info */}
       <div className="card">
