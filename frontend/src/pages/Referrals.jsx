@@ -1,5 +1,4 @@
-// Referrals.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
@@ -7,9 +6,23 @@ import { useAuth } from '../context/AuthContext';
 export default function Referrals() {
   const { user, API } = useAuth();
   const [referrals, setReferrals] = useState([]);
+  const adRef = useRef(null);
 
   useEffect(() => {
     axios.get(`${API}/user/referrals`).then(r => setReferrals(r.data.referrals)).catch(() => {});
+  }, []);
+
+  // Load banner ad
+  useEffect(() => {
+    if (adRef.current && !adRef.current.querySelector('script')) {
+      const s1 = document.createElement('script');
+      s1.innerHTML = `atOptions = {'key':'dd48ecda5386a20b9a7b8486466b2dc0','format':'iframe','height':250,'width':300,'params':{}};`;
+      const s2 = document.createElement('script');
+      s2.src = 'https://www.highperformanceformat.com/dd48ecda5386a20b9a7b8486466b2dc0/invoke.js';
+      s2.async = true;
+      adRef.current.appendChild(s1);
+      adRef.current.appendChild(s2);
+    }
   }, []);
 
   const refLink = `${window.location.origin}/register?ref=${user?.referralCode}`;
@@ -41,6 +54,11 @@ export default function Referrals() {
             <div style={{fontSize:12, color:'var(--text2)'}}>Needed for Free L2</div>
           </div>
         </div>
+      </div>
+
+      {/* BANNER AD */}
+      <div style={{display:'flex', justifyContent:'center', marginBottom:20}}>
+        <div ref={adRef} style={{minHeight:250, width:300}} />
       </div>
 
       <div className="card">
