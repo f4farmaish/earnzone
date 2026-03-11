@@ -1,4 +1,11 @@
-.wallet-page { display: flex; flex-direction: column; gap: 24px; max-width: 700px; }
+.wallet-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+.wallet-page { display: flex; flex-direction: column; gap: 24px; }
 
 .wallet-cards {
   display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 16px;
@@ -48,6 +55,92 @@
   word-break: break-all; line-height: 1.5;
 }
 
+/* Live Feed */
+.live-feed {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  position: sticky;
+  top: 20px;
+  max-height: 600px;
+  overflow: hidden;
+}
+
+.live-feed-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+.live-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.live-feed-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg3);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.live-feed-avatar {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 13px; color: #000;
+  flex-shrink: 0;
+}
+
+.live-feed-info { flex: 1; min-width: 0; }
+.live-feed-user { font-size: 13px; font-weight: 600; }
+.live-feed-addr { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+.live-feed-right { text-align: right; flex-shrink: 0; }
+.live-feed-amount {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 14px;
+  color: var(--green);
+}
+.live-feed-time { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+@media (max-width: 900px) {
+  .wallet-layout { grid-template-columns: 1fr; }
+  .live-feed { position: static; max-height: 300px; }
+  .wallet-cards { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .wallet-cards { grid-template-columns: 1fr; }
 }
