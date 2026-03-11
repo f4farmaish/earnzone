@@ -45,10 +45,6 @@ app.use(async (req, res, next) => {
   await connectDB();
   next();
 });
-// Connect DB before handling requests
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
+
 
 module.exports = app;
