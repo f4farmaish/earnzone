@@ -45,8 +45,10 @@ app.use(async (req, res, next) => {
   await connectDB();
   next();
 });
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Connect DB before handling requests
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 module.exports = app;
