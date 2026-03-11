@@ -81,18 +81,13 @@ export default function Tasks() {
         </div>
 
         {/* AD/SURVEY PLACEHOLDER - CPX Research iframe goes here */}
-        <div className="survey-placeholder" id="cpx-research-container">
-          <div className="survey-placeholder-inner">
-            <div className="survey-placeholder-icon">📊</div>
-            <h4>Survey Offerwall</h4>
-            <p>CPX Research surveys will appear here after integration</p>
-            <div className="survey-placeholder-code">
-              {/* Paste your CPX Research iframe/script here */}
-              {/* Example: <iframe src="https://offers.cpx-research.com/..."></iframe> */}
-            </div>
-          </div>
-        </div>
-
+<div id="cpx-research-container">
+  <iframe
+    src={`https://offers.cpx-research.com/index.php?app_id=31846&ext_user_id=${user?._id}`}
+    style={{width:'100%', height:'500px', border:'none', borderRadius:'12px'}}
+    title="Surveys"
+  />
+</div>
         <button
           className="btn btn-gold btn-full"
           onClick={completeTask}

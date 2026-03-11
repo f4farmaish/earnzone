@@ -174,9 +174,19 @@ export default function Dashboard() {
       </div>
 
       {/* ADS PLACEHOLDER TOP */}
-      <div className="ad-placeholder" id="ad-top">
-        {/* Adsterra ad code will go here */}
-      </div>
+      {/* ADS TOP */}
+<div id="ad-top" ref={el => {
+  if (el && !el.querySelector('script')) {
+    const s1 = document.createElement('script');
+    s1.innerHTML = `atOptions = {'key':'dd48ecda5386a20b9a7b8486466b2dc0','format':'iframe','height':250,'width':300,'params':{}};`;
+    const s2 = document.createElement('script');
+    s2.src = 'https://www.highperformanceformat.com/dd48ecda5386a20b9a7b8486466b2dc0/invoke.js';
+    el.appendChild(s1);
+    el.appendChild(s2);
+  }
+}}>
+</div>
+
 
       {/* Recent Transactions */}
       {transactions.length > 0 && (
@@ -204,9 +214,18 @@ export default function Dashboard() {
       )}
 
       {/* ADS PLACEHOLDER BOTTOM */}
-      <div className="ad-placeholder" id="ad-bottom">
-        {/* Adsterra ad code will go here */}
-      </div>
+      {/* ADS BOTTOM */}
+<div id="ad-bottom" ref={el => {
+  if (el && !el.querySelector('script')) {
+    const s1 = document.createElement('script');
+    s1.innerHTML = `atOptions = {'key':'dd48ecda5386a20b9a7b8486466b2dc0','format':'iframe','height':250,'width':300,'params':{}};`;
+    const s2 = document.createElement('script');
+    s2.src = 'https://www.highperformanceformat.com/dd48ecda5386a20b9a7b8486466b2dc0/invoke.js';
+    el.appendChild(s1);
+    el.appendChild(s2);
+  }
+}}>
+</div>
     </div>
   );
 }

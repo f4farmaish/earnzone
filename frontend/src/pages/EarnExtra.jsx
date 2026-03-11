@@ -110,18 +110,26 @@ export default function EarnExtra() {
                 </div>
               </div>
               {/* SHRINKLINK / AD PLACEHOLDER */}
-              {isThisAvailable && (
-                <div style={{
-                  marginTop:16, padding:'12px 16px',
-                  background:'var(--bg3)', borderRadius:10,
-                  fontSize:13, color:'var(--text2)',
-                  borderLeft:'3px solid var(--gold)'
-                }}>
-                  💡 Ad/Shrinklink will appear here — paste GPLinks or Adsterra code inside this div
-                  {/* GPLinks shortened URL or ad will go here */}
-                </div>
-              )}
-            </div>
+             {isThisAvailable && (
+  <div style={{
+    marginTop:16, padding:'12px 16px',
+    background:'var(--bg3)', borderRadius:10,
+    fontSize:13, color:'var(--text2)',
+    borderLeft:'3px solid var(--gold)'
+  }}>
+    <p style={{marginBottom:8, color:'var(--gold)', fontWeight:600}}>
+      ⚡ Complete this step to unlock your reward:
+    </p>
+    <a 
+     href={i === 0 ? 'https://gplinks.co/G5UZuv7' : i === 1 ? 'https://pubnotepad.com/aFGhAj' : 'https://gplinks.co/SUBZNRb'}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn btn-green btn-sm"
+    >
+      👉 Click Here to Continue
+    </a>
+  </div>
+)}            </div>
           );
         })}
       </div>
