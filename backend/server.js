@@ -10,17 +10,6 @@ app.get('/', (req, res) => res.send('EarnZone API is running'));
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB once
-mongoose.connect(process.env.MONGODB_URI, {
-  bufferCommands: false,
-  maxPoolSize: 5,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 10000,
-  connectTimeoutMS: 5000,
-  family: 4  // Force IPv4 - THIS IS THE KEY FIX
-}).then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB Error:', err.message));
-
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/tasks', require('./routes/tasks'));
@@ -30,7 +19,24 @@ app.use('/api/chat', require('./routes/chat'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/postback', require('./routes/postback'));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      maxPoolSize: 5,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 20000,
+      family: 4
+    });
+    console.log('MongoDB Connected');
+    
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.log('MongoDB Error:', err.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 module.exports = app;
