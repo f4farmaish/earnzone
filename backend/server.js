@@ -10,6 +10,7 @@ app.route('/').get((req, res) => {
 app.use(cors());
 app.use(express.json());
 require('dotenv').config();
+app.use('/api/postback', require('./routes/postback'));
 process.env.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/earnzone';
 // Routes
 app.use('/api/auth', require('./routes/auth'));
