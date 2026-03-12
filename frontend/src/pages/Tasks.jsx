@@ -81,10 +81,24 @@ export default function Tasks() {
 
       {/* CPX Research Survey Section */}
       <div className="card survey-section">
-        <div className="survey-header">
-          <h3>📋 Complete a Survey</h3>
-          <p>Complete a survey below — your balance updates <strong>automatically</strong> after completion!</p>
-          <div style={{
+       <div className="survey-header">
+  <h3>📋 Complete a Survey</h3>
+  <p>Follow these steps to earn:</p>
+  <div style={{display:'flex', flexDirection:'column', gap:8, marginTop:10}}>
+    <div style={{padding:'10px 14px', background:'var(--bg3)', borderRadius:10, fontSize:13}}>
+      1️⃣ Click any survey from the list below
+    </div>
+    <div style={{padding:'10px 14px', background:'var(--bg3)', borderRadius:10, fontSize:13}}>
+      2️⃣ Answer all questions honestly
+    </div>
+    <div style={{padding:'10px 14px', background:'var(--bg3)', borderRadius:10, fontSize:13}}>
+      3️⃣ Your balance updates <strong style={{color:'var(--green)'}}>automatically</strong> after completion!
+    </div>
+    <div style={{padding:'10px 14px', background:'rgba(245,200,66,0.08)', borderRadius:10, fontSize:13, color:'var(--gold)'}}>
+      💡 Tip: Answer honestly for best results. Rushing may disqualify you!
+    </div>
+  </div>
+     <div style={{
             marginTop:10, padding:'10px 14px',
             background:'rgba(0,229,160,0.08)',
             border:'1px solid rgba(0,229,160,0.2)',

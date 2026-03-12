@@ -4,11 +4,10 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const EXTRA_TASKS = [
-  { id: 1, title: 'Watch a Short Ad', description: 'Watch a 30-second advertisement to earn your reward', icon: '📺', reward: 0.40, link: 'https://gplinks.co/G5UZuv7' },
-  { id: 2, title: 'Complete a Quick Survey', description: 'Answer a few questions and get paid instantly', icon: '📋', reward: 0.40, link: 'https://pubnotepad.com/aFGhAj' },
-  { id: 3, title: 'Visit Sponsored Page', description: 'Visit our sponsor page for a few seconds', icon: '🌐', reward: 0.40, link: 'https://gplinks.co/SUBZNRb' },
+  { id: 1, title: 'Watch a Short Ad', description: 'Click the link, wait 10 seconds, then claim your reward', icon: '📺', reward: 0.40, link: 'https://www.effectivegatecpm.com/kn22b4v5?key=90650f52c45acc08fd90a9937982551f' },
+  { id: 2, title: 'Complete a Quick Survey', description: 'Click the link, wait 10 seconds, then claim your reward', icon: '📋', reward: 0.40, link: 'https://www.effectivegatecpm.com/kn22b4v5?key=90650f52c45acc08fd90a9937982551f' },
+  { id: 3, title: 'Visit Sponsored Page', description: 'Click the link, wait 10 seconds, then claim your reward', icon: '🌐', reward: 0.40, link: 'https://www.effectivegatecpm.com/kn22b4v5?key=90650f52c45acc08fd90a9937982551f' },
 ];
-
 export default function EarnExtra() {
   const { API, refreshUser } = useAuth();
   const [status, setStatus] = useState(null);
